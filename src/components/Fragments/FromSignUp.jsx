@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import LabeledInput from "../Element/Labeledinput";
 import Checkbox from "../Element/Checkbox";
 import Button from "../Element/Button";
@@ -91,7 +92,7 @@ const FromSignUp = () => {
       {/* link start */}
       <div className="flex justify-center items-center gap-2 text-gray-02">
         <p>Already have acount?</p>
-        <a className="text-primary text-sm font-bold">Sign in here</a>
+        <Link to="/login" className="text-primary text-sm font-bold">Sign in here</Link>
       </div>
       {/* link end */}
       {/* sign in with google start */}
