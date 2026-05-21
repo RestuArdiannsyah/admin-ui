@@ -1,6 +1,7 @@
 import React from "react";
+import Input from "./Input";
 
-const LabeledInput = (props) => {
+function LabeledInput(props) {
   const { label, id, ...rest } = props;
 
   return (
@@ -8,9 +9,9 @@ const LabeledInput = (props) => {
       <label htmlFor={id} className="block text-sm mb-2">
         {label}
       </label>
-      <input id={id} {...rest} />
+      <Input id={id} {...rest} />
     </>
   );
-};
+}
 
 export default LabeledInput;
