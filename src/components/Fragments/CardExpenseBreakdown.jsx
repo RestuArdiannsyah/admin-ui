@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../Element/Card";
-import Icon from "../Element/Icon";
+import Card from "../Elements/Card";
+import Icon from "../Elements/Icon";
 
 function CardExpenseBreakdown(props) {
   const { data } = props;

@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../Element/Card";
+import Card from "../Elements/Card";
 import { useState } from "react";
 
 function CardRecentTransaction(props) {

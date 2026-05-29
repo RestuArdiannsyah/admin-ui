@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LabeledInput from "../Element/Labeledinput";
-import Checkbox from "../Element/Checkbox";
-import Button from "../Element/Button";
+import LabeledInput from "../Elements/Labeledinput";
+import Checkbox from "../Elements/Checkbox";
+import Button from "../Elements/Button";
 
 const FromSignUp = () => {
   return (

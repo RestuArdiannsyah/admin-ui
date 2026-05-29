@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../Element/Logo";
+import Logo from "../Elements/Logo";
 import FormSignIn from "../Fragments/FormSignIn";
 
 const AuthLayout = (props) => {
