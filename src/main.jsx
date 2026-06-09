@@ -10,8 +10,8 @@ import Form from "./latihan/Form.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeContextProvider>
-      {/* <App /> */}
-      <Form />
+      <App />
+      {/* <Form /> */}
     </ThemeContextProvider>
   </StrictMode>,
 );
