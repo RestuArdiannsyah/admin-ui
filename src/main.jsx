@@ -5,10 +5,13 @@ import "./index.css";
 import App from "./App.jsx";
 import { ThemeContextProvider } from "./context/themeContext.jsx";
 
+import Form from "./latihan/Form.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeContextProvider>
-      <App />
+      {/* <App /> */}
+      <Form />
     </ThemeContextProvider>
   </StrictMode>,
 );

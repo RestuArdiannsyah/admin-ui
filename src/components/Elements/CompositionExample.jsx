@@ -52,7 +52,7 @@ export default function CompositionExample(props) {
     >
       <GaugeReferenceArc />
       <GaugeValueArc sx={{ fill: theme.color }} />
-      <GaugePointer color={theme.color} />
+      <GaugePointer color={theme.color              } />
     </GaugeContainer>
   );
 }
