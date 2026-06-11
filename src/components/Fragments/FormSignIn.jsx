@@ -3,13 +3,22 @@ import { Link } from "react-router-dom";
 import LabeledInput from "../Elements/Labeledinput";
 import Checkbox from "../Elements/Checkbox";
 import Button from "../Elements/Button";
+import { useState } from "react";
 
-const FormSignIn = () => {
+const FormSignIn = ({ onSubmit }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(email, password);
+  };
+
   return (
     <>
       {/* form start */}
       <div className="mt-16">
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <LabeledInput
               className="p-2 w-full"
@@ -18,6 +27,8 @@ const FormSignIn = () => {
               type="email"
               placeholder="google@gmail.com"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -28,6 +39,8 @@ const FormSignIn = () => {
               type="password"
               placeholder="********"
               name="pasword"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="mb-3">
@@ -83,7 +96,9 @@ const FormSignIn = () => {
       {/* sign in with google end */}
       {/* link start */}
       <div className="flex justify-center">
-        <Link to="/register" className="text-primary text-sm font-bold">Create an account</Link>
+        <Link to="/register" className="text-primary text-sm font-bold">
+          Create an account
+        </Link>
       </div>
       {/* link end */}
       {/* sign in with google start */}
