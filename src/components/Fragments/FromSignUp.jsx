@@ -46,7 +46,7 @@ const FromSignUp = () => {
               <span className="text-primary">term of services</span>
             </p>
           </div>
-          <Button>Login</Button>
+          <Button>Register</Button>
         </form>
       </div>
       {/* form end */}
