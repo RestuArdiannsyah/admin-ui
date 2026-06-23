@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import MainLayout from "../components/Layouts/MainLayout";
-import Card from "../components/Elements/Card";
-import CardBalance from "../components/Fragments/CardBalance";
-import CardGoal from "../components/Fragments/CardGoal";
-import CardUpcomingBill from "../components/Fragments/CardUpcomingBill";
-import CardRecentTransaction from "../components/Fragments/CardRecentTransaction";
-import CardStatic from "../components/Fragments/CardStatic";
-import CardExpenseBreakdown from "../components/Fragments/CardExpenseBreakdown";
+import React, { useContext, useEffect, useState } from 'react'
+import MainLayout from '../components/Layouts/MainLayout'
+import CardBalance from '../components/Fragments/CardBalance';
+import CardGoal from '../components/Fragments/CardGoal';
+import CardUpcomingBill from '../components/Fragments/CardUpcomingBill';
+import CardRecentTransaction from '../components/Fragments/CardRecentTransaction';
+import CardStatistic from '../components/Fragments/CardStatic';
+import CardExpenseBeakdown from '../components/Fragments/CardExpenseBreakdown';
 import {
   transactions,
   bills,
@@ -15,54 +14,77 @@ import {
   goals,
   expensesStatistics,
 } from "../data";
-import { goalService } from "../services/dataService";
-import { AuthContext } from "../context/authContext";
+import { goalService } from '../services/dataService';
+import { AuthContext } from '../context/authContext';
+import AppSnackbar from '../components/Elements/AppSnackbar';
 
-const Dashboard = () => {
+function Dashboard() {
   const [goals, setGoals] = useState({});
+  const { logout } = useContext(AuthContext);
 
-  const fetchGoals = async () => {
-    try {
-      const data = await goalService();
-      setGoals(data);
-    } catch (err) {
-      console.error("Gagal mengambil data goals:", err);
-      if (err.status === 401) {
-        logout();
-      }
-    }
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  }); 
+  
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
+
+const fetchGoals = async () => {
+  try {
+    const data = await goalService();
+    setGoals(data);
+  } catch (err) {
+    console.error("Gagal mengambil data goals:", err);
+    setSnackbar({
+      open: true,
+      message: err.msg || "Gagal mengambil data dari server",
+      severity: "error",
+    });
+    if (err.status === 401) {
+      logout();
+    }
+  }
+}
 
   useEffect(() => {
     fetchGoals();
   }, []);
 
-  console.log(goals);
-
   return (
+    <>
     <MainLayout>
-      <div className="grid sm:grid-cols-12 gap-6">
-        <div className="sm:col-span-4">
-          <CardBalance data={balances} />
-        </div>
-        <div className="sm:col-span-4">
-          <CardGoal data={goals} />
-        </div>
-        <div className="sm:col-span-4">
-          <CardUpcomingBill data={bills} />
-        </div>
+        <div className="grid sm:grid-cols-12 gap-6">
+          <div className="sm:col-span-4">
+            <CardBalance data={balances}/>
+          </div>
+          <div className="sm:col-span-4">
+            <CardGoal data={goals}/>
+          </div>
+          <div className="sm:col-span-4">
+            <CardUpcomingBill data={bills} />
+          </div>
         <div className="sm:col-span-4 sm:row-span-2">
-          <CardRecentTransaction data={transactions} />
+            <CardRecentTransaction data={transactions}/>
+          </div>
+          <div className="sm:col-span-8">
+            <CardStatistic data={expensesStatistics}/>
+          </div>
+          <div className="sm:col-span-8">
+            <CardExpenseBeakdown data={expensesBreakdowns}/>
+          </div>
         </div>
-        <div className="sm:col-span-8">
-          <CardStatic data={expensesStatistics} />
-        </div>
-        <div className="sm:col-span-8">
-          <CardExpenseBreakdown data={expensesBreakdowns} />
-        </div>
-      </div>
-    </MainLayout>
+        				<AppSnackbar
+          open={snackbar.open}
+          message={snackbar.message}
+          severity={snackbar.severity}
+          onClose={handleCloseSnackbar}
+        />
+      </MainLayout>
+    </>
   );
-};
+}
 
 export default Dashboard;

@@ -5,54 +5,103 @@ import Checkbox from "../Elements/Checkbox";
 import Button from "../Elements/Button";
 import { useState } from "react";
 
-const FormSignIn = ({ onSubmit }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(email, password);
-  };
+const SignInSchema = Yup.object().shape({
+  email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
+  password: Yup.string().required("Password wajib diisi"),
+});
+
+const FormSignIn = ({ onSubmit }) => {
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   onSubmit(email, password);
+  // };
 
   return (
     <>
       {/* form start */}
       <div className="mt-16">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <LabeledInput
-              className="p-2 w-full"
-              label="Email Address"
-              id="email"
-              type="email"
-              placeholder="google@gmail.com"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <LabeledInput
-              className="p-2 w-full"
-              label="Password"
-              id="password"
-              type="password"
-              placeholder="********"
-              name="pasword"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <Checkbox
-              label="Keep me signed in"
-              id="status"
-              type="checkbox"
-              name="status"
-            />
-          </div>
-          <Button>Login</Button>
-        </form>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+            status: false,
+          }}
+          validationSchema={SignInSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              await onSubmit(values.email, values.password);
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* EMAIL */}
+              <div className="mb-6">
+                <Field name="email">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="email"
+                      type="email"
+                      label="Email Address"
+                      placeholder="hello@example.com"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* PASSWORD */}
+              <div className="mb-6">
+                <Field name="password">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="password"
+                      type="password"
+                      label="Password"
+                      placeholder="●●●●●●●●●●●●●●"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* CHECKBOX */}
+              <div className="mb-3">
+                <Field name="status">
+                  {({ field }) => (
+                    <Checkbox
+                      {...field}
+                      id="status"
+                      type="checkbox"
+                      checked={field.value}
+                      label="Keep me signed in"
+                    />
+                  )}
+                </Field>
+              </div>
+              {/* BUTTON */}
+              <Button>{isSubmitting ? "Loading..." : "Login"}</Button>
+            </Form>
+          )}
+        </Formik>
       </div>
       {/* form end */}
       {/* teks start */}
