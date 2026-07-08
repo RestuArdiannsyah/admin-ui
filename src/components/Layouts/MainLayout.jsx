@@ -7,6 +7,10 @@ import Icon from "../Elements/Icon";
 import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext } from "../../context/authContext";
+import { DarkModeContext } from "../../context/darkModeContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import DarkModeToggle from "../Elements/DarkModeToggle";
 
 const MainLayout = (props) => {
   const { children } = props;
@@ -20,6 +24,7 @@ const MainLayout = (props) => {
   ];
 
   const { theme, setTheme } = useContext(ThemeContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const menu = [
     { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -38,21 +43,45 @@ const MainLayout = (props) => {
 
   const { user, logout } = useContext(AuthContext);
 
+  // state untuk kontrol tampil/tidaknya Backdrop saat proses logout
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const handleLogout = async () => {
+    setLoggingOut(true);
     try {
       // await logoutService();
+
+      // beri jeda sebentar supaya Backdrop sempat terlihat
+      // sebelum user context berubah dan halaman redirect
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       logout();
     } catch (err) {
       console.error(err);
       if (err.status === 401) {
         logout();
       }
+    } finally {
+      setLoggingOut(false);
     }
   };
 
   return (
     <>
-      <div className={`flex min-h-screen ${theme.name}`}>
+      {/* Backdrop muncul selama proses logout berjalan */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loggingOut}
+      >
+        <div className="inline text-center">
+          <CircularProgress color="inherit" />
+          <h1 className="text-xl">Logging Out</h1>
+        </div>
+      </Backdrop>
+
+      <div
+        className={`flex min-h-screen ${theme.name} ${darkMode ? "dark" : ""}`}
+      >
         {/* sidebar */}
         <aside className="w-28 sm:w-64 flex flex-col justify-between px-7 py-12 text-special-bg2 bg-defaultBlack">
           <div>
@@ -88,6 +117,7 @@ const MainLayout = (props) => {
                   onClick={() => setTheme(t)}
                 ></div>
               ))}
+              <DarkModeToggle />
             </div>
           </div>
           <div>
@@ -113,9 +143,9 @@ const MainLayout = (props) => {
             </div>
           </div>
         </aside>
-        <div className="flex flex-1 flex-col bg-special-mainBg">
+        <div className="flex flex-1 flex-col bg-special-mainBg dark:bg-dark dark:text-dark-title">
           {/* navbar */}
-          <header className="border border-b border-gray-05 px-6 py-7 flex justify-between items-center">
+          <header className="border-b border-b-gray-05 px-6 py-7 flex justify-between items-center">
             <div className="flex items-center">
               <div className="font-bold text-2xl me-6">{user.name}</div>
               <div className="text-gray-03 flex">
@@ -133,7 +163,7 @@ const MainLayout = (props) => {
             </div>
           </header>
           {/* content */}
-          <main className="flex-1 px-6 py-4">{children}</main>
+          <main className="flex-1 px-6 py-4 dark:bg-dark dark:text-dark-title">{children}</main>
         </div>
       </div>
     </>

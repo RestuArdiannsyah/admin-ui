@@ -6,7 +6,7 @@ function LabeledInput(props) {
 
   return (
     <>
-      <label htmlFor={id} className="block text-sm mb-2">
+      <label htmlFor={id} className="block text-sm mb-2 ">
         {label}
       </label>
       <Input id={id} {...rest} />

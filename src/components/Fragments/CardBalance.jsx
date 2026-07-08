@@ -16,12 +16,16 @@ function CardBalance(props) {
             data={data.map((item) => (
               <div key={item.id} className="p-2">
                 <div className="flex justify-between">
-                  <div className="text-2xl font-bold">${item.balance}</div>
+                  <div className="text-2xl font-bold ">
+                    ${item.balance}
+                  </div>
                   <div>
-                    <Link to="/balance">All account</Link>
+                    <Link to="/balance" >
+                      All account
+                    </Link>
                   </div>
                 </div>
-                <div className="border-b-1 border-gray-05 my-4"></div>
+                <div className="border-b border-gray-05 my-4"></div>
                 <div className="flex justify-between bg-primary text-white p-4 rounded-md">
                   <div>
                     Account Type

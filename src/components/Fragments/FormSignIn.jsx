@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LabeledInput from "../Elements/Labeledinput";
 import Checkbox from "../Elements/Checkbox";
 import Button from "../Elements/Button";
+import DarkModeToggle from "../Elements/DarkModeToggle";
 import { useState } from "react";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -106,8 +107,8 @@ const FormSignIn = ({ onSubmit }) => {
       {/* form end */}
       {/* teks start */}
       <div className="my-9 px-7 flex flex-col justify-center items-center text-xs text-gray-03">
-        <div className="border border-gray-05 w-full"></div>
-        <div className="px-2 bg-special-mainBg absolute"> or sign in with</div>
+        <div className="border border-gray-05 w-full dark:border-dark"></div>
+        <div className="px-2 bg-special-mainBg absolute dark:bg-dark dark:text-dark-desc"> or sign in with</div>
       </div>
       {/* teks end */}
       {/* sign in with google start */}
@@ -156,6 +157,11 @@ const FormSignIn = ({ onSubmit }) => {
       {/* link start */}
       <div></div>
       {/* link end */}
+
+      {/* darkmode button */}
+      <div className="flex justify-center mt-10">
+        <DarkModeToggle />
+      </div>
     </>
   );
 };

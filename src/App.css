@@ -5,6 +5,7 @@ html {
 }
 
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-body: "Inter", sans-serif;
@@ -21,6 +22,10 @@ html {
   --color-special-bg: rgba(210, 210, 210, 0.25);
   --color-special-bg2: rgba(255, 255, 255, 0.7);
   --color-special-bg3: rgba(255, 255, 255, 0.08);
+  --color-dark: #383838;
+  --color-dark-title: oklch(96.7% 0.001 286.375);
+  --color-dark-desc: #686760;
+  --color-dark-komponen: #2C2C2C;
   --color-special-mainBg: #f4f5f7;
   --color-special-green: #4daf6e;
   --color-special-red: #e73d1c;
